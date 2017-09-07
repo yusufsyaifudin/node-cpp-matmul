@@ -1,18 +1,21 @@
+sudo: required
 language: node_js
 
 node_js:
   - "8"
+script:
+  - sudo unlink /usr/bin/gcc && sudo ln -s /usr/bin/gcc-5 /usr/bin/gcc
+  - gcc --version
 
 addons:
   apt:
     sources:
     - ubuntu-toolchain-r-test
+    packages:
+    - gcc-5
+    - g++-5
 
 before_script:
-  - add-apt-repository ppa:ubuntu-toolchain-r/test
-  - apt-get update
-  - apt-get install gcc-5 g++-5
-  - update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 60 --slave /usr/bin/g++ g++ /usr/bin/g++-5
   - curl -L "http://downloads.sourceforge.net/shunit2/shunit2-2.0.3.tgz" | tar zx
   - npm install -g mocha
   - npm install -g node-gyp
