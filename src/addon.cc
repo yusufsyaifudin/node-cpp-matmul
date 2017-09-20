@@ -15,32 +15,32 @@ void matrixMultiplicationEigen(const v8::FunctionCallbackInfo<v8::Value>& args) 
     v8::Local<v8::Function> callbackIndex = v8::Local<v8::Function>::Cast(args[2]);
 
     // Callback function argument. There are 2 callback function argument, first is data itself, the second is error.
-    int callbackArgument = 2;
+    // int callbackArgument = 2;
 
     v8::Local<v8::Array> matrix1 = v8::Local<v8::Array>::Cast(args[0]); // get first array
     v8::Local<v8::Array> matrix2 = v8::Local<v8::Array>::Cast(args[1]); // get second array
 
     if (!matrix1->IsArray() || !matrix2->IsArray()) {
-        v8::Local<v8::Value> callback[callbackArgument] = 
+        v8::Local<v8::Value> callback[2] = 
         { 
             v8::Null(isolate),
             v8::Exception::TypeError(v8::String::NewFromUtf8(isolate, "first and second argument must be an array"))    
         };
 
-        callbackIndex->Call(isolate->GetCurrentContext()->Global(), callbackArgument, callback);
+        callbackIndex->Call(isolate->GetCurrentContext()->Global(), 2, callback);
         return;
     }
 
     if (matrix1->Length() > 0) {
         v8::Local<v8::Array> tmp = v8::Local<v8::Array>::Cast(matrix1->Get(0));
         if (!tmp->IsArray()) {
-            v8::Local<v8::Value> callback[callbackArgument] = 
+            v8::Local<v8::Value> callback[2] = 
             { 
                 v8::Null(isolate),
                 v8::Exception::TypeError(v8::String::NewFromUtf8(isolate, "first arguments should be in 2-dimensional array format"))    
             };
     
-            callbackIndex->Call(isolate->GetCurrentContext()->Global(), callbackArgument, callback);
+            callbackIndex->Call(isolate->GetCurrentContext()->Global(), 2, callback);
             return;
         }
     }
@@ -48,13 +48,13 @@ void matrixMultiplicationEigen(const v8::FunctionCallbackInfo<v8::Value>& args) 
     if (matrix2->Length() > 0) {
         v8::Local<v8::Array> tmp = v8::Local<v8::Array>::Cast(matrix2->Get(0));
         if (!tmp->IsArray()) {
-            v8::Local<v8::Value> callback[callbackArgument] = 
+            v8::Local<v8::Value> callback[2] = 
             { 
                 v8::Null(isolate),
                 v8::Exception::TypeError(v8::String::NewFromUtf8(isolate, "second arguments should be in 2-dimensional array format"))    
             };
     
-            callbackIndex->Call(isolate->GetCurrentContext()->Global(), callbackArgument, callback);
+            callbackIndex->Call(isolate->GetCurrentContext()->Global(), 2, callback);
             return;
         }
     }
@@ -66,13 +66,13 @@ void matrixMultiplicationEigen(const v8::FunctionCallbackInfo<v8::Value>& args) 
     const uint32_t y = matrix2Inner->Length();
 
     if (matrix2->Length() != z) {
-        v8::Local<v8::Value> callback[callbackArgument] = 
+        v8::Local<v8::Value> callback[2] = 
         { 
             v8::Null(isolate),
             v8::Exception::TypeError(v8::String::NewFromUtf8(isolate, "number of columns in the first matrix should be the same as the number of rows in the second"))    
         };
 
-        callbackIndex->Call(isolate->GetCurrentContext()->Global(), callbackArgument, callback);
+        callbackIndex->Call(isolate->GetCurrentContext()->Global(), 2, callback);
         return;
     }
 
@@ -111,13 +111,13 @@ void matrixMultiplicationEigen(const v8::FunctionCallbackInfo<v8::Value>& args) 
         // std::cout << "\n";  
     }  
 
-    v8::Local<v8::Value> callback[callbackArgument] = 
+    v8::Local<v8::Value> callback[2] = 
     { 
         product,
         v8::Null(isolate)      
     };
 
-    callbackIndex->Call(isolate->GetCurrentContext()->Global(), callbackArgument, callback);
+    callbackIndex->Call(isolate->GetCurrentContext()->Global(), 2, callback);
 
     return;
 }
